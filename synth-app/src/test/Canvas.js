@@ -5,32 +5,29 @@ function Canvas(props) {
     const canvasRef = useRef(null);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    function draw(ctx, framecount) {
+    function draw(ctx) {
 
         ctx.fillStyle = '#000000';
         ctx.beginPath();
-        ctx.arc(50, 100, 20*Math.sin(framecount*0.05)**2, 0, 2*Math.PI);
-        ctx.fill();
+        ctx.fillStyle = 'rgb(200,0,0)';
+        ctx.fillRect(100, 100, 100, 100);
+        
     }
 
     useEffect(() => {
         
         const canvas = canvasRef.current;
-        const context = canvas.getContext('2d');
-        let frameCount = 0;
-        let animationFrameId;
 
-        const render = () => {
-            frameCount++;
-            draw(context, frameCount);
-            animationFrameId = window.requestAnimationFrame(render);
-        }
-        render();
+        if(canvas.getContext) {
 
-        return () => {
-            window.cancelAnimationFrame(animationFrameId);
+            const context = canvas.getContext('2d');
+       
+            const render = () => {
+                draw(context);
+            }
+            render(); 
         }
-        
+
     },[draw])
 
     
